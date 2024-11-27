@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listar Tarefas</title>
+</head>
+<body>
+    <h1>Lista de Tarefas</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Título</th>
+                <th>Descrição</th>
+                <th>Status</th>
+                <th>Categoria</th>
+            </tr>
+        </thead>
+        <tbody id="tarefas-table-body"></tbody>
+    </table>
+
+    <script>
+        async function fetchTarefas() {
+            const response = await fetch('http://localhost:5000/api/tarefas/listar');
+            if (response.ok) {
+                const tarefas = await response.json();
+                const tableBody = document.getElementById('tarefas-table-body');
+                tarefas.forEach(tarefa => {
+                    const row = `
+                        <tr>
+                            <td>${tarefa.id}</td>
+                            <td>${tarefa.titulo}</td>
+                            <td>${tarefa.descricao}</td>
+                            <td>${tarefa.status}</td>
+                            <td>${tarefa.categoria ? tarefa.categoria.nome : "Sem Categoria"}</td>
+                        </tr>`;
+                    tableBody.innerHTML += row;
+                });
+            } else {
+                alert("Erro ao carregar tarefas.");
+            }
+        }
+        fetchTarefas();
+    </script>
+</body>
+</html>

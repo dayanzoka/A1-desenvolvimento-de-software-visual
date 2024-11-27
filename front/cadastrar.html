@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastrar Tarefa</title>
+</head>
+<body>
+    <h1>Cadastrar Tarefa</h1>
+    <form id="cadastrar-tarefa-form">
+        <label for="titulo">Título:</label>
+        <input type="text" id="titulo" name="titulo" required><br><br>
+        <label for="descricao">Descrição:</label>
+        <textarea id="descricao" name="descricao" required></textarea><br><br>
+        <label for="categoriaId">ID da Categoria:</label>
+        <input type="text" id="categoriaId" name="categoriaId" required><br><br>
+        <button type="submit">Cadastrar</button>
+    </form>
+
+    <script>
+        document.getElementById('cadastrar-tarefa-form').addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const titulo = document.getElementById('titulo').value;
+            const descricao = document.getElementById('descricao').value;
+            const categoriaId = document.getElementById('categoriaId').value;
+
+            const response = await fetch('http://localhost:5000/api/tarefas/cadastrar', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ titulo, descricao, categoriaId })
+            });
+
+            if (response.ok) {
+                alert("Tarefa cadastrada com sucesso!");
+                event.target.reset();
+            } else {
+                alert("Erro ao cadastrar tarefa.");
+            }
+        });
+    </script>
+</body>
+</html>
